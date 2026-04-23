@@ -9,7 +9,7 @@ def setup():
     frame_rate(60) # 60 times per scond
 
 def draw():
-    bank[0] += (1 + minutes[0] + hours[0])*60 / 60.0 # add money each frmae
+    bank[0] += (1 + minutes[0] + hours[0]*60) / 60.0 # add money each frmae
 
     background(0) # black background
     fill(255) # white text
