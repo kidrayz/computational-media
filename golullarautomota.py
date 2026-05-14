@@ -13,6 +13,10 @@ def count_neighbors(g):
     n[:-1, :]  += g[1:,  :]  # down
     n[:,  1:]  += g[:, :-1]  # left
     n[:, :-1]  += g[:,  1:]  # right
+    n[1:, 1:]  += g[:-1, :-1] # up and left
+    n[1:, :-1] += g[:-1, 1:] # up and right
+    n[:-1, 1:] += g[1:, :-1] # down and eft
+    n[:-1,:-1] += g[1:, 1:] # down and right
     return n
 
 def setup():
