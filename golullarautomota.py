@@ -7,13 +7,6 @@ cell_h = 5
 
 grid = np.zeros((rows, cols))
 
-def draw_H():
-    cx = cols // 2
-    cy = rows // 2
-    grid[cy-4:cy+5, cx-3] = 1
-    grid[cy-4:cy+5, cx+3] = 1
-    grid[cy, cx-3:cx+4] = 1
-
 def count_neighbors(g):
     n = np.zeros_like(g)
 
@@ -31,13 +24,14 @@ def count_neighbors(g):
 
 def setup():
     size(200, 200)
-    draw_H()
+    for x in range(width):
+        for y in range(height):
+            
+            
 
 def draw():
     global grid
     background(0)
-
-    # draw cells
     for r in range(rows):
         for c in range(cols):
             if grid[r, c] == 1:
@@ -52,13 +46,6 @@ def draw():
     dead  = grid == 0
 
     next_grid = np.zeros_like(grid)
-
-    # Conway's Game of Life rules:
-    # 1. Any live cell with 2 or 3 neighbors survives
-    next_grid[alive & ((n == 2) | (n == 3))] = 1
-
-    # 2. Any dead cell with exactly 3 neighbors becomes alive
-    next_grid[dead & (n == 3)] = 1
-
-    # everything else stays dead (default 0)
-    grid = next_grid
+    next_grid[alive & ((n == 2) | (n == 3))] = 1#live
+    next_grid[dead & (n == 3)] = 1 #revive
+    grid = next_grid #dead
