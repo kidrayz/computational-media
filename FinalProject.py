@@ -98,7 +98,8 @@ class Blaster:  # skill 10
         sprite = gaster_sheet.get_pixels(x1, y1, self.FW, self.FH)  # crop frame - skill 8
         if not self.firing:
             pulse = abs(math.sin(frame_count * 0.15))  # sin for smooth pulse - skill 11
-            stroke(255, 30, 30, int(pulse * 220))  # pulsing red warning - skill 2 3
+            # HSB: hue=0 (red), sat=88, bri=100, alpha pulse — vivid red warning line
+            stroke(0, 88, 100, int(pulse * 86))  # pulsing red warning - skill 2 3
             stroke_weight(2)
             no_fill()
             if self.side == 'left':
@@ -118,19 +119,22 @@ class Blaster:  # skill 10
         if self.firing:
             no_stroke()
             if self.side == 'left':
-                fill(100, 220, 255, 160)  # skill 3
+                # HSB: hue=195 (cyan-blue), sat=61, bri=100 — gaster beam outer
+                fill(195, 61, 100, 63)  # skill 3
                 rect(-8, self.FH, 16, BOX_X + BOX_W - self.x)  # outer beam - skill 1
-                fill(255, 255, 255, 220)
+                fill(0, 0, 100, 86)  # pure white inner beam
                 rect(-3, self.FH, 6,  BOX_X + BOX_W - self.x)  # inner beam - skill 1
             elif self.side == 'right':
-                fill(100, 220, 255, 160)  # skill 3
+                # HSB: hue=195 (cyan-blue), sat=61, bri=100 — gaster beam outer
+                fill(195, 61, 100, 63)  # skill 3
                 rect(-8, self.FH, 16, self.x - BOX_X)  # skill 1
-                fill(255, 255, 255, 220)
+                fill(0, 0, 100, 86)  # pure white inner beam
                 rect(-3, self.FH, 6,  self.x - BOX_X)  # skill 1
             else:
-                fill(100, 220, 255, 160)  # skill 3
+                # HSB: hue=195 (cyan-blue), sat=61, bri=100 — gaster beam outer
+                fill(195, 61, 100, 63)  # skill 3
                 rect(-8, self.FH, 16, BOX_Y + BOX_H - self.y)  # skill 1
-                fill(255, 255, 255, 220)
+                fill(0, 0, 100, 86)  # pure white inner beam
                 rect(-3, self.FH, 6,  BOX_Y + BOX_H - self.y)  # skill 1
         no_tint()
         image_mode(CENTER)
@@ -181,8 +185,8 @@ show_ltg_taunt  = False  # show ltg this taunt
 flash_red       = 0
 
 def draw_text_box(txt_lines, show_ltg=False):  # skill 1 2 8
-    fill(0)
-    stroke(255)  # skill 2
+    fill(0, 0, 0)  # black — achromatic, HSB S=0 B=0
+    stroke(0, 0, 100)  # white stroke — achromatic, HSB S=0 B=100 - skill 2
     stroke_weight(3)  # skill 2
     rect(30, 415, W - 60, 140, 6)  # dialogue box - skill 1
     no_stroke()
@@ -190,13 +194,13 @@ def draw_text_box(txt_lines, show_ltg=False):  # skill 1 2 8
         no_tint()
         image_mode(CORNER)
         image(ltg_img, 38, 423, 95, 95)  # ltg portrait in box - skill 8
-        fill(255)
+        fill(0, 0, 100)  # white text
         text_size(16)
         text_align(LEFT, TOP)
         for i, txt in enumerate(txt_lines):
             text(txt, 148, 435 + i * 24)  # text beside ltg image
     else:
-        fill(255)
+        fill(0, 0, 100)  # white text
         text_size(16)
         text_align(LEFT, TOP)
         for i, txt in enumerate(txt_lines):
@@ -204,13 +208,14 @@ def draw_text_box(txt_lines, show_ltg=False):  # skill 1 2 8
 
 def draw_hud():  # skill 1, 3
     no_stroke()
-    fill(40, 40, 40)  # skill 3
+    fill(0, 0, 16)  # dark gray track — HSB achromatic bri=16 ≈ rgb(40,40,40) - skill 3
     rect(BOX_X, H - 30, BOX_W, 14)  # dark bar track - skill 1
-    fill(255, 50, 50)  # skill 3
+    # HSB: hue=0 (red), sat=80, bri=100 — vivid HP bar red
+    fill(0, 80, 100)  # skill 3
     rect(BOX_X, H - 30, int(BOX_W * max(0, player_hp) / player_max_hp), 14)  # scaled hp bar - skill 1
 
 def draw_battle_box():  # skill 1 2
-    stroke(255)  # skill 2
+    stroke(0, 0, 100)  # white stroke — achromatic - skill 2
     stroke_weight(3)
     no_fill()
     rect(BOX_X, BOX_Y, BOX_W, BOX_H)  # skill 1
@@ -222,7 +227,8 @@ def draw_soul():  # skill 1 2 8
     image_mode(CORNER)
     if invincible > 0:
         no_fill()
-        stroke(255, 80, 80, 160)  # arc while invincible - skill 2
+        # HSB: hue=0 (red), sat=69, bri=100, alpha=63 — soft red iframes arc
+        stroke(0, 69, 100, 63)  # arc while invincible - skill 2
         stroke_weight(2)
         arc(soul_x, soul_y + 8, 22, 10, 0, math.pi)  # arc below soul - skill 1
         no_stroke()
@@ -315,7 +321,8 @@ def check_hits():
 
 def apply_red_flash():  # skill 1, 12
     no_stroke()
-    fill(200, 0, 0, 80)
+    # HSB: hue=0 (red), sat=100, bri=78, alpha=31 — red screen flash overlay
+    fill(0, 100, 78, 31)
     quad(0, 0, W, 0, W, H, 0, H)  # red overlay - skill 1
     px = get_np_pixels()  # grab argb pixel array - skill 12
     px[:, :, 1] = np.clip(px[:, :, 1].astype(np.int16) + 80, 0, 255).astype(np.uint8)  # boost red
@@ -365,6 +372,7 @@ def setup():  # skill 4
     global sheet, red_heart, bone_img, gaster_sheet, ltg_img, dialogue_timer
     size(W, H)
     frame_rate(60)
+    color_mode(HSB, 360, 100, 100, 100)  # hue 0-360, sat/bri/alpha 0-100
     sheet        = load_image("assets/spritesheet.png")        # skill 8
     red_heart    = load_image("assets/redhear.png")            # skill 8
     bone_img     = load_image("assets/bone.png")               # skill 8
@@ -378,7 +386,7 @@ def setup():  # skill 4
 def draw():  # skill 4
     global phase, flash_red, taunt_text, taunt_timer, show_ltg_taunt
     global dialogue_index, dialogue_timer, frame_set
-    background(0)
+    background(0, 0, 0)  # black background — HSB bri=0
     if phase == "dialogue":
         draw_sans()
         update_dialogue()
@@ -399,11 +407,11 @@ def draw():  # skill 4
         image_mode(CENTER)
         image(red_heart, W // 2, H // 2 - 60, 40, 40)  # skill 8
         image_mode(CORNER)
-        fill(255)
+        fill(0, 0, 100)  # white text
         text_size(18)
         text_align(CENTER, CENTER)
         text("but it refused.", W // 2, H // 2)
-        fill(180, 180, 180)
+        fill(0, 0, 71)  # light gray — HSB bri=71 ≈ rgb(180,180,180)
         text_size(14)
         text("press  r  to restart", W // 2, H // 2 + 35)
         return
