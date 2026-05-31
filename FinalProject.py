@@ -1,6 +1,4 @@
-# sans boss fight - final project
-# skills 4, 6, 7 are shown throughout the whole program
-
+# im sansing it
 import random
 import math
 import numpy as np
@@ -18,15 +16,11 @@ IDLE_FRAMES = [(2,647,60,718),(62,647,116,718),(118,647,176,718)]
 TALK_FRAMES = [(178,647,232,718),(234,647,282,718),(284,647,322,718)]
 
 DIALOGUES = [
-    "* sans.",
-    "* heh.",
-    "* you wanna have a bad time?",
-    "* cause i've seen what you've done.",
-    "* welp. here we go.",
+    "* guess what?.",
+    "* chicken butt"
 ]
 TAUNT_LINES = [
-    "* heh. that one got ya.",
-    "* you're gonna have a bad time.",
+    "* uninstall",
     "* im sansing it",
     "* chud",
     "* get good",
@@ -408,10 +402,10 @@ def draw():  # skill 4
         fill(255)
         text_size(18)
         text_align(CENTER, CENTER)
-        text("* but it refused.", W // 2, H // 2)
+        text("but it refused.", W // 2, H // 2)
         fill(180, 180, 180)
         text_size(14)
-        text("press  R  to restart", W // 2, H // 2 + 35)
+        text("press  r  to restart", W // 2, H // 2 + 35)
         return
     draw_sans()
     draw_battle_box()
@@ -445,7 +439,7 @@ def draw():  # skill 4
 def key_pressed():  # skill 5
     global phase, dialogue_timer
     if key in ('a','d','w','s'):
-        keys_held.add(key)  # held keys diagonal mvmt - skill 5
+        keys_held.add(key)  # skill 5
     if phase == "dialogue":
         dialogue_timer = 1  # skip line
     elif phase == "gameover":
